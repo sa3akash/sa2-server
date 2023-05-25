@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import { Application, json, urlencoded, Response, Request, NextFunction } from 'express';
 import http from 'http';
 import cors from 'cors';
@@ -8,13 +7,13 @@ import cookieSession from 'cookie-session';
 import HTTP_STATUS from 'http-status-codes';
 import 'express-async-errors';
 import compression from 'compression';
-import { config } from './config';
+import Logger from 'bunyan';
+import { config } from '@root/config';
 import { Server } from 'socket.io';
 import { createClient } from 'redis';
 import { createAdapter } from '@socket.io/redis-adapter';
-import applicationRoutes from './routes';
-import { CustomError, IErrorResponse } from './shared/globals/helpers/error-handler';
-import Logger from 'bunyan';
+import applicationRoutes from '@root/routes';
+import { CustomError, IErrorResponse } from '@global/helpers/error-handler';
 
 const log: Logger = config.createLogger('setupServer');
 
@@ -38,7 +37,7 @@ export class SA2Server {
       cookieSession({
         name: 'session',
         keys: [config.S_KEY_ONE!, config.S_KEY_TWO!],
-        maxAge: 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24,
         secure: config.NODE_ENV !== 'development',
         httpOnly: true,
         signed: true
@@ -112,5 +111,7 @@ export class SA2Server {
     });
   }
 
-  private socketIoConnections(io: Server): void {}
+  private socketIoConnections(io: Server): void {
+    // log.info('socketIoConnections');
+  }
 }
