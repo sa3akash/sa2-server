@@ -17,6 +17,10 @@ class Config {
   public CLOUD_API_KEY: string | undefined;
   public CLOUD_SEC: string | undefined;
   public FOLDFR: string | undefined;
+  public SENDER_MAIL: string | undefined;
+  public SENDER_MAIL_PASSWORD: string | undefined;
+  public SENDGRID_API_KEY: string | undefined;
+  public SENDGRID_SENDER: string | undefined;
 
   constructor() {
     this.DATABASE_URL = process.env.DATABASE_URL;
@@ -31,6 +35,10 @@ class Config {
     this.CLOUD_API_KEY = process.env.CLOUD_API_KEY;
     this.CLOUD_SEC = process.env.CLOUD_SEC;
     this.FOLDFR = process.env.FOLDFR;
+    this.SENDER_MAIL = process.env.SENDER_MAIL;
+    this.SENDER_MAIL_PASSWORD = process.env.SENDER_MAIL_PASSWORD;
+    this.SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
+    this.SENDGRID_SENDER = process.env.SENDGRID_SENDER;
   }
 
   public validateConfig(): void {
