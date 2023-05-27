@@ -45,16 +45,16 @@ Accept: application/json
 withCredentials: true
 
 {
-  "email": ""
+  "email": "avro@gmail.com"
 }
 
 ###
-POST {{baseUrl}}/{{urlPath}}/reset-password/<token>
+POST {{baseUrl}}/{{urlPath}}/reset-password/baf363ff4e1ce5d7ad30edb142fd43fd2192b576
 Content-Type: application/json
 Accept: application/json
 withCredentials: true
 
 {
-  "password": "",
-  "confirmPassword": ""
+  "password": "123456",
+  "confirmPassword": "123456"
 }
