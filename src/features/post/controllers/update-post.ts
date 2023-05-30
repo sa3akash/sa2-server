@@ -37,17 +37,16 @@ export class UpdatePost {
     res.status(HTTP_STATUS.OK).json({ message: 'Post updated successfully.' });
   }
 
-
   @joiValidation(postWithImageSchema)
   public async postWithImage(req: Request, res: Response): Promise<void> {
     const { imgId, imgVersion } = req.body;
     if (imgId && imgVersion) {
-        UpdatePost.prototype.updatePost(req);
+      UpdatePost.prototype.updatePost(req);
     } else {
-        const result: UploadApiResponse = await UpdatePost.prototype.addImageToExistingPost(req);
-        if (!result.public_id) {
-          throw new BadRequestError(result.message);
-        }
+      const result: UploadApiResponse = await UpdatePost.prototype.addImageToExistingPost(req);
+      if (!result.public_id) {
+        throw new BadRequestError(result.message);
+      }
     }
     res.status(HTTP_STATUS.OK).json({ message: 'Post with image updated successfully' });
   }
@@ -72,7 +71,6 @@ export class UpdatePost {
     socketIOPostObject.emit('update-post', postUpdated, 'posts');
     postQueue.addPostJob('updatePostInDB', { key: postId, value: postUpdated });
   }
-
 
   private async addImageToExistingPost(req: Request): Promise<UploadApiResponse> {
     const { post, bgColor, feelings, privacy, gifUrl, profilePicture, image, video } = req.body;
@@ -102,13 +100,12 @@ export class UpdatePost {
     socketIOPostObject.emit('update-post', postUpdated, 'posts');
     postQueue.addPostJob('updatePostInDB', { key: postId, value: postUpdated });
 
-
     // if (image) {
-       //   imageQueue.addImageJob('addImageToDB', {
-       //     key: `${req.currentUser!.userId}`,
-       //     imgId: result.public_id,
-       //     imgVersion: result.version.toString()
-       //   });
+    //   imageQueue.addImageJob('addImageToDB', {
+    //     key: `${req.currentUser!.userId}`,
+    //     imgId: result.public_id,
+    //     imgVersion: result.version.toString()
+    //   });
     // }
     return result;
   }

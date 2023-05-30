@@ -21,7 +21,6 @@ export class GetPosts {
     // get posts from cache
     const cachedPosts: IPostDocument[] = await postCache.getPostFromCache('post', newSkip.toString(), limit.toString());
 
-      
     if (cachedPosts.length) {
       posts = cachedPosts;
       totalPosts = await postCache.getNumberOfPostFromCache();
