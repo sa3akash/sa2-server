@@ -1,0 +1,92 @@
+@baseUrl = http://localhost:5000
+@urlPath = api/v1
+
+
+###
+POST {{baseUrl}}/{{urlPath}}/post
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+# Privacy - Public | Private | Followers
+# Feelings - like | love | wow | happy | sad | angry
+
+{
+  "post": "This is my test post 17",
+  "bgColor": "#000000",
+  "privacy": "Public",
+  "gifUrl": "",
+  "profilePicture": "https://res.cloudinary.com/dw5lxxdko/image/upload/v1685010955/SA2Social/646f3a097498984b2c9e4209/profile-picture/646f3a097498984b2c9e420a-profile-pic.jpg",
+  "feelings": "sad"
+}
+
+
+
+###
+GET {{baseUrl}}/{{urlPath}}/post/all/1
+# GET {{baseUrl}}/{{urlPath}}/post/all/1
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+###
+GET {{baseUrl}}/{{urlPath}}/post/images/1
+# GET {{baseUrl}}/{{urlPath}}/post/images/1
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+
+
+###
+POST {{baseUrl}}/{{urlPath}}/post/image
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+{
+  "post": "This is my test image post 4",
+  "bgColor": "",
+  "privacy": "Public",
+  "gifUrl": "",
+  "profilePicture": "https://res.cloudinary.com/dw5lxxdko/image/upload/v1685010955/SA2Social/646f3a097498984b2c9e4209/profile-picture/646f3a097498984b2c9e420a-profile-pic.jpg",
+  "feelings": "sad",
+  "image": ""
+}
+
+###
+PUT {{baseUrl}}/{{urlPath}}/post/64730f7416f8fc4199e4bf73
+Content-Type: application/json
+Accept: application/json
+withCredentials: true,
+
+{
+  "post": "This is my test post",
+  "bgColor": "#ffffff",
+  "privacy": "Public",
+  "gifUrl": "",
+  "profilePicture": "https://res.cloudinary.com/dw5lxxdko/image/upload/v1685010955/SA2Social/646f3a097498984b2c9e4209/profile-picture/646f3a097498984b2c9e420a-profile-pic.jpg",
+  "feelings": ""
+}
+
+###
+PUT {{baseUrl}}/{{urlPath}}/post/image/64730f7416f8fc4199e4bf73
+Content-Type: application/json
+Accept: application/json
+withCredentials: true,
+
+{
+ "post": "This is my test with image post",
+  "bgColor": "#ffffff",
+  "privacy": "Public",
+  "gifUrl": "",
+  "profilePicture": "https://res.cloudinary.com/dw5lxxdko/image/upload/v1685010955/SA2Social/646f3a097498984b2c9e4209/profile-picture/646f3a097498984b2c9e420a-profile-pic.jpg",
+  "feelings": "",
+  "image": ""
+}
+
+###
+DELETE {{baseUrl}}/{{urlPath}}/post/64730f5016f8fc4199e4bf6f
+Content-Type: application/json
+Accept: application/json
+withCredentials: true

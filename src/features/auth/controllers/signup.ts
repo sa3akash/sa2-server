@@ -42,7 +42,7 @@ export class SignUp {
       avatarColor
     });
 
-    const path = `${config.FOLDFR}/${authObjectId}/profile-picture`;
+    const path = `${config.FOLDFR}/${userObjectId}/profile-picture`;
 
     const result: UploadApiResponse = (await uploads(avatarImage, `${userObjectId}-profile-pic`, true, true, path)) as UploadApiResponse;
 

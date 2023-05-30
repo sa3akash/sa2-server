@@ -2,6 +2,7 @@
 import { authRoutes } from '@auth/routes/auth-routes';
 import { currentRoutes } from '@auth/routes/current-routes';
 import { authMiddleware } from '@global/helpers/auth-middleware';
+import { postRoutes } from '@post/routes/post-route';
 import { serverAdapter } from '@service/queues/base-queue';
 import { Application } from 'express';
 
@@ -13,6 +14,7 @@ export default (app: Application) => {
     app.use(basePath, authRoutes.routes());
     app.use(basePath, authRoutes.signOutRoute());
     app.use(basePath, authMiddleware.verifyUser, currentRoutes.getCurrentUser());
+    app.use(basePath, authMiddleware.verifyUser, postRoutes.getPostRoutes());
   };
   routes();
 };
