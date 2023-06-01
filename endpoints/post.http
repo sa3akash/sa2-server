@@ -90,3 +90,4 @@ DELETE {{baseUrl}}/{{urlPath}}/post/64730f5016f8fc4199e4bf6f
 Content-Type: application/json
 Accept: application/json
 withCredentials: true
+

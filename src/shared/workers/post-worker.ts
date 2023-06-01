@@ -4,7 +4,7 @@ import { config } from '@root/config';
 import { ServerError } from '@global/helpers/error-handler';
 import { postServices } from '@service/db/post-services';
 
-const log: Logger = config.createLogger('auth-worker');
+const log: Logger = config.createLogger('post-worker');
 
 class PostWorker {
   async addPostToDB(job: Job, done: DoneCallback): Promise<void> {

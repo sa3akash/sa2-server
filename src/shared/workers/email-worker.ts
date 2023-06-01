@@ -3,7 +3,7 @@ import Logger from 'bunyan';
 import { config } from '@root/config';
 import { mailTransport } from '@service/emails/mail-transport';
 
-const log: Logger = config.createLogger('auth-worker');
+const log: Logger = config.createLogger('email-worker');
 
 class EmailWorker {
   async addNotificationEmail(job: Job, done: DoneCallback): Promise<void> {
