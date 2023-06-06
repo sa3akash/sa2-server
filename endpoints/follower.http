@@ -1,60 +1,52 @@
 @baseUrl = http://localhost:5000
 @urlPath = api/v1
 
+# PUT {{baseUrl}}/{{urlPath}}/user/follow/<followerId>
 ###
-GET {{baseUrl}}/{{urlPath}}/signout
+PUT {{baseUrl}}/{{urlPath}}/user/follow/64730b54e9aeff94d177eb5a
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+{}
+
+
+# PUT {{baseUrl}}/{{urlPath}}/user/unfollow/<followerId>
+###
+PUT {{baseUrl}}/{{urlPath}}/user/unfollow/64730b54e9aeff94d177eb5a
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+{}
+
+
+
+###
+GET {{baseUrl}}/{{urlPath}}/user/following
 Content-Type: application/json
 Accept: application/json
 withCredentials: true
 
 ###
-GET {{baseUrl}}/{{urlPath}}/current-user
+GET {{baseUrl}}/{{urlPath}}/user/followers/64730b54e9aeff94d177eb5a
 Content-Type: application/json
 Accept: application/json
 withCredentials: true
+
 
 ###
-POST {{baseUrl}}/{{urlPath}}/signup
+PUT {{baseUrl}}/{{urlPath}}/user/block/64730b54e9aeff94d177eb5a
 Content-Type: application/json
 Accept: application/json
 withCredentials: true
 
-{
-  "username": "batash",
-  "password": "123456",
-  "email": "batash@gmail.com",
-  "avatarColor": "green",
-  "avatarImage": ""
-}
+{}
 
 ###
-POST {{baseUrl}}/{{urlPath}}/signin
+PUT {{baseUrl}}/{{urlPath}}/user/unblock/64730b54e9aeff94d177eb5a
 Content-Type: application/json
 Accept: application/json
 withCredentials: true
 
-{
-  "username": "avro",
-  "password": "123456"
-}
-
-###
-POST {{baseUrl}}/{{urlPath}}/forgot-password
-Content-Type: application/json
-Accept: application/json
-withCredentials: true
-
-{
-  "email": "avro@gmail.com"
-}
-
-###
-POST {{baseUrl}}/{{urlPath}}/reset-password/baf363ff4e1ce5d7ad30edb142fd43fd2192b576
-Content-Type: application/json
-Accept: application/json
-withCredentials: true
-
-{
-  "password": "123456",
-  "confirmPassword": "123456"
-}
+{}

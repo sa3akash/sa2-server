@@ -15,6 +15,8 @@ import { createAdapter } from '@socket.io/redis-adapter';
 import applicationRoutes from '@root/routes';
 import { CustomError, IErrorResponse } from '@global/helpers/error-handler';
 import { SocketIOPostHandler } from '@socket/post-socket';
+import { SocketIOFollowerHandler } from '@socket/follower-socket';
+import { SocketIOUserHandler } from '@socket/user-socket';
 
 const log: Logger = config.createLogger('setupServer');
 
@@ -114,7 +116,11 @@ export class SA2Server {
 
   private socketIoConnections(io: Server): void {
     const postSocketIOHandler: SocketIOPostHandler = new SocketIOPostHandler(io);
+    const followerSocketIOHandler: SocketIOFollowerHandler = new SocketIOFollowerHandler(io);
+    const socketIOUserHandler: SocketIOUserHandler = new SocketIOUserHandler(io);
 
     postSocketIOHandler.listen();
+    followerSocketIOHandler.listen();
+    socketIOUserHandler.listen();
   }
 }
