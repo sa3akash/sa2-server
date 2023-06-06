@@ -1,0 +1,34 @@
+@baseUrl = http://localhost:5000
+@urlPath = api/v1
+
+# GET {{baseUrl}}/{{urlPath}}/post/comments/<postId>
+###
+GET {{baseUrl}}/{{urlPath}}/post/comments/64730f7416f8fc4199e4bf73
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+###
+GET {{baseUrl}}/{{urlPath}}/post/comments-name/64730f7416f8fc4199e4bf73
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+###
+GET {{baseUrl}}/{{urlPath}}/post/comments-single/64730f7416f8fc4199e4bf73/647e2fcd34ece6056ab526f3
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+###
+POST {{baseUrl}}/{{urlPath}}/post/comments
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+{
+  "userTo": "64730b26e9aeff94d177eb53",
+  "postId": "64730f7416f8fc4199e4bf73",
+  "comment": "test comment 2",
+  "profilePicture": "https://res.cloudinary.com/dw5lxxdko/image/upload/v1685261095/SA2Social/64730b26e9aeff94d177eb53/profile-picture/64730b26e9aeff94d177eb53-profile-pic.jpg"
+}

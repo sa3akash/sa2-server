@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { authRoutes } from '@auth/routes/auth-routes';
 import { currentRoutes } from '@auth/routes/current-routes';
+import { commentRoutes } from '@comment/routes/comment-route';
 import { authMiddleware } from '@global/helpers/auth-middleware';
 import { postRoutes } from '@post/routes/post-route';
 import { reactionRoutes } from '@reaction/routes/reaction-routes';
@@ -17,6 +18,7 @@ export default (app: Application) => {
     app.use(basePath, authMiddleware.verifyUser, currentRoutes.getCurrentUser());
     app.use(basePath, authMiddleware.verifyUser, postRoutes.getPostRoutes());
     app.use(basePath, authMiddleware.verifyUser, reactionRoutes.reactionRoutes());
+    app.use(basePath, authMiddleware.verifyUser, commentRoutes.getCommentRoutes());
   };
   routes();
 };

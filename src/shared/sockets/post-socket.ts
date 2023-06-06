@@ -1,3 +1,5 @@
+import { ICommentDocument } from '@comment/interfaces/comment-interface';
+import { IReactionDocument } from '@reaction/interfaces/reactions-interfaces';
 import { Server, Socket } from 'socket.io';
 
 export let socketIOPostObject: Server;
@@ -11,7 +13,13 @@ export class SocketIOPostHandler {
 
   public listen(): void {
     this.io.on('connection', (socket: Socket) => {
-      console.log('Post socket connection');
+      socket.on('reaction', (reaction: IReactionDocument) => {
+        this.io.emit('update-reaction', reaction);
+      });
+
+      socket.on('comment', (comment: ICommentDocument) => {
+        this.io.emit('update-comment', comment);
+      });
     });
   }
 }
