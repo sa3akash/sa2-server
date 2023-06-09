@@ -4,6 +4,7 @@ import { BadRequestError } from '@global/helpers/error-handler';
 import { IPostDocument } from '@post/interfaces/post-interface';
 import { postSchema, postWithImageSchema } from '@post/schemas/post-schemas';
 import { config } from '@root/config';
+import { imageQueue } from '@service/queues/image-queue';
 import { postQueue } from '@service/queues/post-queue';
 import { PostCache } from '@service/redis/post-cache';
 import { socketIOPostObject } from '@socket/post-socket';
@@ -58,6 +59,7 @@ export class CreatePost {
       key: req.currentUser!.userId,
       value: createdPost
     });
+
     // send response
     res.status(HTTP_STATUS.CREATED).json({ message: 'Post created successfully.' });
   }
@@ -108,7 +110,12 @@ export class CreatePost {
     // save post to mongodb database using queue and bull
     postQueue.addPostJob('addPostToDB', { key: req.currentUser!.userId, value: createdPost });
 
-    // call image queue to mongodb database
+    // save image to mongodb database
+    imageQueue.addImageJob('addImageToDB', {
+      key: req.currentUser!.userId,
+      imgId: result.public_id,
+      imgVersion: result.version.toString()
+    });
 
     res.status(HTTP_STATUS.CREATED).json({ message: 'Post created with image successfully.' });
   }

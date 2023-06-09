@@ -4,6 +4,7 @@ import { BadRequestError } from '@global/helpers/error-handler';
 import { IPostDocument } from '@post/interfaces/post-interface';
 import { postSchema, postWithImageSchema } from '@post/schemas/post-schemas';
 import { config } from '@root/config';
+import { imageQueue } from '@service/queues/image-queue';
 import { postQueue } from '@service/queues/post-queue';
 import { PostCache } from '@service/redis/post-cache';
 import { socketIOPostObject } from '@socket/post-socket';
@@ -79,9 +80,11 @@ export class UpdatePost {
     const path = `${config.FOLDFR}/${req.currentUser?.userId}/post`;
 
     const result: UploadApiResponse = image && ((await uploads(image, '', false, false, path)) as UploadApiResponse);
+    // if image upload error
     if (!result?.public_id) {
       return result;
     }
+
     const updatedPost: IPostDocument = {
       post,
       bgColor,
@@ -100,13 +103,14 @@ export class UpdatePost {
     socketIOPostObject.emit('update-post', postUpdated, 'posts');
     postQueue.addPostJob('updatePostInDB', { key: postId, value: postUpdated });
 
-    // if (image) {
-    //   imageQueue.addImageJob('addImageToDB', {
-    //     key: `${req.currentUser!.userId}`,
-    //     imgId: result.public_id,
-    //     imgVersion: result.version.toString()
-    //   });
-    // }
+    // save image to mongodb database
+    if (image) {
+      imageQueue.addImageJob('addImageToDB', {
+        key: req.currentUser!.userId,
+        imgId: result.public_id,
+        imgVersion: result.version.toString()
+      });
+    }
     return result;
   }
 }
