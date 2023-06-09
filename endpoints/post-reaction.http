@@ -9,12 +9,12 @@ Accept: application/json
 withCredentials: true
 
 {
-  "userTo": "64730b26e9aeff94d177eb53",
+  "userTo": "64730b54e9aeff94d177eb5a",
   "postId": "64734eed05c91dc3ec97649f",
-  "type": "love",
+  "type": "wow",
   "profilePicture": "https://res.cloudinary.com/dw5lxxdko/image/upload/v1685010955/SA2Social/646f3a097498984b2c9e4209/profile-picture/646f3a097498984b2c9e420a-profile-pic.jpg",
   "previousReaction": "",
-  "postReactions": {"like":0,"love": 1,"happy":0,"wow":0,"sad":0,"angry":0}
+  "postReactions": {"like":0,"love": 0,"happy":0,"wow":1,"sad":0,"angry":0}
 }
 
 ###

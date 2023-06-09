@@ -10,6 +10,7 @@ import { IPostJobData } from '@post/interfaces/post-interface';
 import { IReactionJob } from '@reaction/interfaces/reactions-interfaces';
 import { ICommentJob } from '@comment/interfaces/comment-interface';
 import { IBlockedUserJobData, IFollowerJobData } from '@follower/interfaces/follower-interface';
+import { INotificationJobData } from '@notification/interfaces/notifications-interfaces';
 
 let bullAdapters: BullAdapter[] = [];
 export let serverAdapter: ExpressAdapter;
@@ -22,7 +23,8 @@ type IBaseJobData =
   | IReactionJob
   | ICommentJob
   | IFollowerJobData
-  | IBlockedUserJobData;
+  | IBlockedUserJobData
+  | INotificationJobData;
 
 export abstract class BaseQueue {
   queue: Queue.Queue;

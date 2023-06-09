@@ -1,8 +1,13 @@
 import { ICommentDocument, ICommentJob, ICommentNameList, IQueryComment } from '@comment/interfaces/comment-interface';
 import { CommentsModel } from '@comment/models/comment-model';
+import { INotificationDocument, INotificationTemplate } from '@notification/interfaces/notifications-interfaces';
+import { NotificationModel } from '@notification/models/notification-model';
 import { IPostDocument } from '@post/interfaces/post-interface';
 import { PostModel } from '@post/models/post-schema';
+import { notificationTemplate } from '@service/emails/templates/notification/notification-template';
+import { emailQueue } from '@service/queues/email-queue';
 import { UserCache } from '@service/redis/user-cache';
+import { socketIONotificationObject } from '@socket/notification-socket';
 import { IUserDocument } from '@user/interfaces/user-interface';
 import mongoose, { Query } from 'mongoose';
 
@@ -26,30 +31,35 @@ class CommentService {
     // send notification other friends and followers
 
     if (response[2].notifications.comments && userFrom !== userTo) {
-      //   const notificationModel: INotificationDocument = new NotificationModel();
-      //   const notifications = await notificationModel.insertNotification({
-      //     userFrom,
-      //     userTo,
-      //     message: `${username} commented on your post.`,
-      //     notificationType: 'comment',
-      //     entityId: new mongoose.Types.ObjectId(postId),
-      //     createdItemId: new mongoose.Types.ObjectId(response[0]._id!),
-      //     createdAt: new Date(),
-      //     comment: comment.comment,
-      //     post: response[1].post,
-      //     imgId: response[1].imgId!,
-      //     imgVersion: response[1].imgVersion!,
-      //     gifUrl: response[1].gifUrl!,
-      //     reaction: ''
-      //   });
-      //   socketIONotificationObject.emit('insert notification', notifications, { userTo });
-      //   const templateParams: INotificationTemplate = {
-      //     username: response[2].username!,
-      //     message: `${username} commented on your post.`,
-      //     header: 'Comment Notification'
-      //   };
-      //   const template: string = notificationTemplate.notificationMessageTemplate(templateParams);
-      //   emailQueue.addEmailJob('commentsEmail', { receiverEmail: response[2].email!, template, subject: 'Post notification' });
+      const notificationModel: INotificationDocument = new NotificationModel();
+
+      const notifications = await notificationModel.insertNotification({
+        userFrom,
+        userTo,
+        message: `${username} commented on your post.`,
+        notificationType: 'comment',
+        entityId: new mongoose.Types.ObjectId(postId),
+        createdItemId: new mongoose.Types.ObjectId(response[0]._id!),
+        createdAt: new Date(),
+        comment: comment.comment,
+        post: response[1].post,
+        imgId: response[1].imgId!,
+        imgVersion: response[1].imgVersion!,
+        gifUrl: response[1].gifUrl!,
+        reaction: ''
+      });
+      // send to client using socket.io
+      socketIONotificationObject.emit('insert-notification', notifications, { userTo });
+
+      const templateParams: INotificationTemplate = {
+        username: response[2].username!,
+        message: `${username} commented on your post.`,
+        header: 'Comment Notification'
+      };
+      // send email for notification
+      const template: string = notificationTemplate.notificationMessageTemplate(templateParams);
+
+      emailQueue.addEmailJob('commentsEmail', { receiverEmail: response[2].email!, template, subject: 'Post notification' });
     }
   }
 

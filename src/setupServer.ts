@@ -17,6 +17,7 @@ import { CustomError, IErrorResponse } from '@global/helpers/error-handler';
 import { SocketIOPostHandler } from '@socket/post-socket';
 import { SocketIOFollowerHandler } from '@socket/follower-socket';
 import { SocketIOUserHandler } from '@socket/user-socket';
+import { SocketIONotificationHandler } from '@socket/notification-socket';
 
 const log: Logger = config.createLogger('setupServer');
 
@@ -40,7 +41,7 @@ export class SA2Server {
       cookieSession({
         name: 'session',
         keys: [config.S_KEY_ONE!, config.S_KEY_TWO!],
-        maxAge: 1000 * 60 * 60 * 24,
+        maxAge: 1000 * 60 * 60 * 24 * 7,
         secure: config.NODE_ENV !== 'development',
         httpOnly: true,
         signed: true
@@ -118,9 +119,11 @@ export class SA2Server {
     const postSocketIOHandler: SocketIOPostHandler = new SocketIOPostHandler(io);
     const followerSocketIOHandler: SocketIOFollowerHandler = new SocketIOFollowerHandler(io);
     const socketIOUserHandler: SocketIOUserHandler = new SocketIOUserHandler(io);
+    const socketIONotificationHandler: SocketIONotificationHandler = new SocketIONotificationHandler();
 
     postSocketIOHandler.listen();
     followerSocketIOHandler.listen();
     socketIOUserHandler.listen();
+    socketIONotificationHandler.listen(io);
   }
 }

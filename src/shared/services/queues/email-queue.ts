@@ -6,6 +6,9 @@ class EmailQueue extends BaseQueue {
   constructor() {
     super('email-queue');
     this.processJob('forgotPassword', 5, emailWorker.addNotificationEmail);
+    this.processJob('commentsEmail', 5, emailWorker.addNotificationEmail);
+    this.processJob('followersEmail', 5, emailWorker.addNotificationEmail);
+    this.processJob('reactionsEmail', 5, emailWorker.addNotificationEmail);
   }
   public addEmailJob(name: string, data: IEmailJob): void {
     this.addJob(name, data);
