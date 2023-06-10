@@ -19,6 +19,7 @@ import { SocketIOFollowerHandler } from '@socket/follower-socket';
 import { SocketIOUserHandler } from '@socket/user-socket';
 import { SocketIONotificationHandler } from '@socket/notification-socket';
 import { SocketIOImageHandler } from '@socket/image-socket';
+import { SocketIOChatHandler } from '@socket/chat-socket';
 
 const log: Logger = config.createLogger('setupServer');
 
@@ -122,11 +123,13 @@ export class SA2Server {
     const socketIOUserHandler: SocketIOUserHandler = new SocketIOUserHandler(io);
     const socketIONotificationHandler: SocketIONotificationHandler = new SocketIONotificationHandler();
     const socketIOImageHandler: SocketIOImageHandler = new SocketIOImageHandler();
+    const socketIOChatHandler: SocketIOChatHandler = new SocketIOChatHandler(io);
 
     postSocketIOHandler.listen();
     followerSocketIOHandler.listen();
     socketIOUserHandler.listen();
     socketIONotificationHandler.listen(io);
     socketIOImageHandler.listen(io);
+    socketIOChatHandler.listen();
   }
 }

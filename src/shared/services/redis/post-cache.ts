@@ -15,6 +15,11 @@ export class PostCache extends BaseCache {
     super('post-redis');
   }
 
+  /**
+   *
+   * save post to cache
+   *
+   */
   public async savePostToCache(data: ISavePostToCache): Promise<void> {
     const { key, currentUserId, uId, createdPost } = data;
     // ready for save to cache
@@ -64,6 +69,11 @@ export class PostCache extends BaseCache {
     }
   }
 
+  /**
+   *
+   * get post to cache
+   *
+   */
   public async getPostFromCache(key: string, start: string, end: string): Promise<IPostDocument[]> {
     try {
       if (!this.client.isOpen) {
@@ -97,6 +107,11 @@ export class PostCache extends BaseCache {
     }
   }
 
+  /**
+   *
+   * get numeber of post to cache
+   *
+   */
   public async getNumberOfPostFromCache(): Promise<number> {
     try {
       if (!this.client.isOpen) {
@@ -111,6 +126,11 @@ export class PostCache extends BaseCache {
     }
   }
 
+  /**
+   *
+   * get number of post with image to cache
+   *
+   */
   public async getPostsWithImagesFromCache(key: string, start: number, end: number): Promise<IPostDocument[]> {
     try {
       if (!this.client.isOpen) {
@@ -141,6 +161,11 @@ export class PostCache extends BaseCache {
     }
   }
 
+  /**
+   *
+   * get user  posts to cache
+   *
+   */
   public async getUserPostsFromCache(key: string, uId: number): Promise<IPostDocument[]> {
     try {
       if (!this.client.isOpen) {
@@ -169,6 +194,11 @@ export class PostCache extends BaseCache {
     }
   }
 
+  /**
+   *
+   * get total user posts to cache
+   *
+   */
   public async getTotalUserPostsInCache(uId: number): Promise<number> {
     try {
       if (!this.client.isOpen) {
@@ -183,6 +213,11 @@ export class PostCache extends BaseCache {
     }
   }
 
+  /**
+   *
+   * delete posts to cache
+   *
+   */
   public async deletePostFromCache(key: string, currentUserId: string): Promise<void> {
     try {
       if (!this.client.isOpen) {
@@ -209,6 +244,11 @@ export class PostCache extends BaseCache {
     }
   }
 
+  /**
+   *
+   * update posts to cache
+   *
+   */
   public async updatePostInCache(key: string, updatedPost: IPostDocument): Promise<IPostDocument> {
     // key === postId
     const dataToSave = {

@@ -7,7 +7,7 @@ import { UserCache } from './user-cache';
 import { IUserDocument } from '@user/interfaces/user-interface';
 import mongoose from 'mongoose';
 import { Helpers } from '@global/helpers/helpers';
-import { remove } from 'lodash';
+import { findIndex, remove } from 'lodash';
 
 const log: Logger = config.createLogger('follower-cache');
 const userCache: UserCache = new UserCache();
@@ -18,14 +18,28 @@ export class FollowerCache extends BaseCache {
   }
 
   /**
-   * saveFollowerToCache
+   *
+   * save follower to cache
+   *
    */
   public async saveFollowerToCache(key: string, value: string): Promise<void> {
     try {
       if (!this.client.isOpen) {
         await this.client.connect();
       }
-      await this.client.LPUSH(key, value);
+      // await this.client.LPUSH(key, value);
+
+      const followerList = await this.client.LRANGE(key, 0, -1);
+
+      if (followerList.length === 0) {
+        await this.client.LPUSH(key, value);
+      } else {
+        // if follower already exists
+        const followerIndex: number = findIndex(followerList, (listItem: string) => listItem.includes(value));
+        if (followerIndex < 0) {
+          await this.client.LPUSH(key, value);
+        }
+      }
     } catch (error) {
       log.error(error);
       throw new ServerError('Server error. Try again.');
@@ -33,8 +47,11 @@ export class FollowerCache extends BaseCache {
   }
 
   /**
-   * removeFollowerToCache
+   *
+   * remove follower to cache
+   *
    */
+
   public async removeFollowerToCache(key: string, value: string): Promise<void> {
     try {
       if (!this.client.isOpen) {
@@ -49,7 +66,9 @@ export class FollowerCache extends BaseCache {
   }
 
   /**
-   * updateFollowerCountCache
+   *
+   * update follower to cache
+   *
    */
   public async updateFollowerCountCache(key: string, prop: string, value: number): Promise<void> {
     try {
@@ -65,8 +84,10 @@ export class FollowerCache extends BaseCache {
   }
 
   /**
-   * get followers data
-   **/
+   *
+   * get follower to cache
+   *
+   */
   public async getFollowerFromCache(key: string): Promise<IFollowerData[]> {
     try {
       if (!this.client.isOpen) {
@@ -99,6 +120,11 @@ export class FollowerCache extends BaseCache {
     }
   }
 
+  /**
+   *
+   * upadate follower to cache
+   *
+   */
   public async updateBlockedUserPropInCache(key: string, prop: string, value: string, type: 'block' | 'unblock'): Promise<void> {
     try {
       if (!this.client.isOpen) {

@@ -15,7 +15,9 @@ export class UserCache extends BaseCache {
   }
 
   /**
-   *  save data to user
+   *
+   * save user
+   *
    */
   public async saveUserToCache(key: string, uId: string, createdUser: IUserDocument): Promise<void> {
     const createdAt = new Date();
@@ -58,7 +60,9 @@ export class UserCache extends BaseCache {
   }
 
   /**
-   *   get user data in cache
+   *
+   * get user
+   *
    */
 
   public async getUserFromCache(userId: string): Promise<IUserDocument | null> {
@@ -86,8 +90,10 @@ export class UserCache extends BaseCache {
   }
 
   /**
-   *  update single feild in user cache
-   **/
+   *
+   * update user
+   *
+   */
 
   public async updateSingleUserItemInCache(userId: string, prop: string, value: UserItem): Promise<IUserDocument | null> {
     try {

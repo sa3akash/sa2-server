@@ -12,9 +12,11 @@ export class CommentCache extends BaseCache {
   constructor() {
     super('comment-redis');
   }
-  //*******
-  //** add comment
-  //*******
+  /**
+   *
+   * add comment
+   *
+   */
 
   public async addPostCommentToCache(key: string, value: ICommentDocument): Promise<void> {
     try {
@@ -36,6 +38,11 @@ export class CommentCache extends BaseCache {
     }
   }
 
+  /**
+   *
+   * get comment
+   *
+   */
   public async getCommentsFromCache(postId: string): Promise<ICommentDocument[]> {
     try {
       if (!this.client.isOpen) {
@@ -54,6 +61,11 @@ export class CommentCache extends BaseCache {
     }
   }
 
+  /**
+   *
+   * add comment name
+   *
+   */
   public async getCommentsNamesFromCache(postId: string): Promise<ICommentNameList[]> {
     try {
       if (!this.client.isOpen) {
@@ -79,6 +91,11 @@ export class CommentCache extends BaseCache {
     }
   }
 
+  /**
+   *
+   * get single comment
+   *
+   */
   public async getSingleCommentFromCache(postId: string, commentId: string): Promise<ICommentDocument[]> {
     try {
       if (!this.client.isOpen) {

@@ -12,10 +12,12 @@ export class ReactionCache extends BaseCache {
   constructor() {
     super('reaction-redis');
   }
-  //*******
-  //** add reactions
-  //*******
 
+  /**
+   *
+   * add reaction
+   *
+   */
   public async addReactionSaveToCache(
     key: string,
     reaction: IReactionDocument,
@@ -45,6 +47,11 @@ export class ReactionCache extends BaseCache {
     }
   }
 
+  /**
+   *
+   * remove reaction
+   *
+   */
   public async removeReactionFromCache(key: string, username: string, postReactions: IReactions): Promise<void> {
     try {
       if (!this.client.isOpen) {
@@ -68,6 +75,11 @@ export class ReactionCache extends BaseCache {
     }
   }
 
+  /**
+   *
+   * get previous reaction
+   *
+   */
   private getPreviousReactions(response: string[], username: string): IReactionDocument | undefined {
     const list: IReactionDocument[] = [];
 
@@ -78,6 +90,11 @@ export class ReactionCache extends BaseCache {
     return find(list, (listItem: IReactionDocument) => listItem.username === username);
   }
 
+  /**
+   *
+   * get reaction
+   *
+   */
   public async getReactionFromCache(postId: string): Promise<[IReactionDocument[], number]> {
     try {
       if (!this.client.isOpen) {
@@ -96,6 +113,11 @@ export class ReactionCache extends BaseCache {
     }
   }
 
+  /**
+   *
+   * get single  reaction by username
+   *   *
+   */
   public async getSingleReactionByUsernameFromCache(postId: string, username: string): Promise<[IReactionDocument, number] | []> {
     try {
       if (!this.client.isOpen) {
