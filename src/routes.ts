@@ -9,6 +9,7 @@ import { notificationRoutes } from '@notification/routes/notification-routes';
 import { postRoutes } from '@post/routes/post-route';
 import { reactionRoutes } from '@reaction/routes/reaction-routes';
 import { serverAdapter } from '@service/queues/base-queue';
+import { userRoutes } from '@user/routes/profile-routes';
 import { Application } from 'express';
 
 const basePath = '/api/v1';
@@ -26,6 +27,7 @@ export default (app: Application) => {
     app.use(basePath, authMiddleware.verifyUser, notificationRoutes.routes());
     app.use(basePath, authMiddleware.verifyUser, imageRoutes.routes());
     app.use(basePath, authMiddleware.verifyUser, chatRoutes.routes());
+    app.use(basePath, authMiddleware.verifyUser, userRoutes.routes());
   };
   routes();
 };
