@@ -1,7 +1,7 @@
 import express, { Express } from 'express';
-import { SA2Server } from './setupServer';
-import databaseConnection from './setupDatabase';
-import { config } from './config';
+import { SA2Server } from '@root/setupServer';
+import databaseConnection from '@root/setupDatabase';
+import { config } from '@root/config';
 
 class Application {
   public initialize(): void {
@@ -14,6 +14,7 @@ class Application {
 
   private loadConfig(): void {
     config.validateConfig();
+    config.cloudinaryconfig();
   }
 }
 
