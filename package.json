@@ -10,7 +10,10 @@
     "lint:check": "eslint \"src/**/*.{ts,tsx}\"",
     "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix",
     "prettier:check": "prettier --check \"src/**/*.{ts,json}\"",
-    "prettier:fix": "prettier --write \"src/**/*.{ts,json}\""
+    "prettier:fix": "prettier --write \"src/**/*.{ts,json}\"",
+    "test": "jest --coverage=true -w=1 --forceExit --detectOpenHandles --watchAll=false",
+    "seeds:dev": "npx ts-node src/seeds.ts",
+    "seeds:prod": "npx ts-node ./build/src/seeds.js"
   },
   "keywords": [],
   "author": "",
