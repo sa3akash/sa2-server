@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import { Application, json, urlencoded, Response, Request, NextFunction } from 'express';
 import http from 'http';
 import cors from 'cors';
@@ -8,13 +7,19 @@ import cookieSession from 'cookie-session';
 import HTTP_STATUS from 'http-status-codes';
 import 'express-async-errors';
 import compression from 'compression';
-import { config } from './config';
+import Logger from 'bunyan';
+import { config } from '@root/config';
 import { Server } from 'socket.io';
 import { createClient } from 'redis';
 import { createAdapter } from '@socket.io/redis-adapter';
-import applicationRoutes from './routes';
-import { CustomError, IErrorResponse } from './shared/globals/helpers/error-handler';
-import Logger from 'bunyan';
+import applicationRoutes from '@root/routes';
+import { CustomError, IErrorResponse } from '@global/helpers/error-handler';
+import { SocketIOPostHandler } from '@socket/post-socket';
+import { SocketIOFollowerHandler } from '@socket/follower-socket';
+import { SocketIOUserHandler } from '@socket/user-socket';
+import { SocketIONotificationHandler } from '@socket/notification-socket';
+import { SocketIOImageHandler } from '@socket/image-socket';
+import { SocketIOChatHandler } from '@socket/chat-socket';
 
 const log: Logger = config.createLogger('setupServer');
 
@@ -112,5 +117,19 @@ export class SA2Server {
     });
   }
 
-  private socketIoConnections(io: Server): void {}
+  private socketIoConnections(io: Server): void {
+    const postSocketIOHandler: SocketIOPostHandler = new SocketIOPostHandler(io);
+    const followerSocketIOHandler: SocketIOFollowerHandler = new SocketIOFollowerHandler(io);
+    const socketIOUserHandler: SocketIOUserHandler = new SocketIOUserHandler(io);
+    const socketIONotificationHandler: SocketIONotificationHandler = new SocketIONotificationHandler();
+    const socketIOImageHandler: SocketIOImageHandler = new SocketIOImageHandler();
+    const socketIOChatHandler: SocketIOChatHandler = new SocketIOChatHandler(io);
+
+    postSocketIOHandler.listen();
+    followerSocketIOHandler.listen();
+    socketIOUserHandler.listen();
+    socketIONotificationHandler.listen(io);
+    socketIOImageHandler.listen(io);
+    socketIOChatHandler.listen();
+  }
 }

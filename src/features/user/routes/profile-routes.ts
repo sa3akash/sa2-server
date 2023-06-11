@@ -1,0 +1,33 @@
+import { authMiddleware } from '@global/helpers/auth-middleware';
+import { Get } from '@user/controllers/get-profile';
+import { SearchUser } from '@user/controllers/search-user';
+import { EditBasicInfo } from '@user/controllers/update-basic-info';
+import { Update } from '@user/controllers/update-password';
+import { UpdateNotificationSettings } from '@user/controllers/update-settings';
+import express, { Router } from 'express';
+
+class UserRoutes {
+  private router: Router;
+
+  constructor() {
+    this.router = express.Router();
+  }
+
+  public routes(): Router {
+    this.router.get('/user/all/:page', authMiddleware.checkAuthentication, Get.prototype.all);
+    this.router.get('/user/profile', authMiddleware.checkAuthentication, Get.prototype.profile);
+    this.router.get('/user/profile/:userId', authMiddleware.checkAuthentication, Get.prototype.profileByUserId);
+    this.router.get('/user/profile/posts/:username/:userId/:uId', authMiddleware.checkAuthentication, Get.prototype.profileAndPosts);
+    this.router.get('/user/profile/user/suggestions', authMiddleware.checkAuthentication, Get.prototype.randomUserSuggestions);
+    this.router.get('/user/profile/search/:query', authMiddleware.checkAuthentication, SearchUser.prototype.user);
+
+    this.router.put('/user/profile/change-password', authMiddleware.checkAuthentication, Update.prototype.password);
+    this.router.put('/user/profile/basic-info', authMiddleware.checkAuthentication, EditBasicInfo.prototype.editInfo);
+    this.router.put('/user/profile/social-links', authMiddleware.checkAuthentication, EditBasicInfo.prototype.editSocial);
+    this.router.put('/user/profile/settings', authMiddleware.checkAuthentication, UpdateNotificationSettings.prototype.notification);
+
+    return this.router;
+  }
+}
+
+export const userRoutes: UserRoutes = new UserRoutes();
