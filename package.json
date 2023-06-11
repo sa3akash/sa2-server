@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "start": "NODE_ENV=production pm2 start ./build/app.js -i 5 --attach --watch | bunyan",
     "dev": "nodemon -L -r tsconfig-paths/register src/app.ts | bunyan",
     "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
     "lint:check": "eslint \"src/**/*.{ts,tsx}\"",
