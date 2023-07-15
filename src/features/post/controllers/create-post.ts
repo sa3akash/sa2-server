@@ -99,7 +99,7 @@ export class CreatePost {
       reactions: { like: 0, love: 0, happy: 0, sad: 0, wow: 0, angry: 0 }
     } as IPostDocument;
     // post send real time using socket.io
-    socketIOPostObject.emit('add post', createdPost);
+    socketIOPostObject.emit('add-post', createdPost);
     // save post to redis cache
     await postCache.savePostToCache({
       key: postObjectId,
